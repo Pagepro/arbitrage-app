@@ -1,5 +1,5 @@
 import { BINANCE, BITFINEX, BITSTAMP, BITTREX, OKEX, POLONIEX, GDAX } from "./exchanges";
-import { Binance } from "../drivers/Binance";
+import { BinanceDriver } from "../drivers/binanceDriver";
 
 export const driversConfig = {
     exchangesMapping: [
@@ -33,7 +33,7 @@ export const driversConfig = {
         }
     ],
     driversMapping: {
-        [BINANCE]: Binance
+        [BINANCE]: BinanceDriver
     },
     timeInterval: 5000
 };
