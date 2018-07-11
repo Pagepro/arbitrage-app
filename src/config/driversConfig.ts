@@ -1,5 +1,11 @@
 import { BINANCE, BITFINEX, BITSTAMP, BITTREX, OKEX, POLONIEX, GDAX } from "./exchanges";
-import { BinanceDriver } from "../drivers/binanceDriver";
+import BinanceDriver from "../drivers/binanceDriver";
+import BitfinexDriver from "../drivers/bitfinexDriver";
+import BitstampDriver from "../drivers/bitstampDriver";
+import BittrexDriver from "../drivers/bittrexDriver";
+import PoloniexDriver from "../drivers/poloniexDriver";
+import OkexDriver from "../drivers/okexDriver";
+import GdaxDriver from "../drivers/gdaxDriver";
 
 export const driversConfig = {
     exchangesMapping: [
@@ -33,7 +39,13 @@ export const driversConfig = {
         }
     ],
     driversMapping: {
-        [BINANCE]: BinanceDriver
+        [BINANCE]: BinanceDriver,
+        [BITFINEX]: BitfinexDriver,
+        [BITSTAMP]: BitstampDriver,
+        [BITTREX]: BittrexDriver,
+        [POLONIEX]: PoloniexDriver,
+        [OKEX]: OkexDriver,
+        [GDAX]: GdaxDriver
     },
     timeInterval: 5000
 };
