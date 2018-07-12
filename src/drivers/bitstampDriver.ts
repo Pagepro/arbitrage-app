@@ -6,7 +6,7 @@ import { BITSTAMP } from "../config/exchanges";
 export default class BitstampDriver extends Driver {
 
     prepareUrl(): string {
-        return `https://www.bitstamp.net/api/v2/ticker/${this.pair.replace("/", "")}`;
+        return `https://www.bitstamp.net/api/v2/ticker/${this.pair.replace("/", "").toLowerCase()}`;
     }
 
     transformData(data: any): any {

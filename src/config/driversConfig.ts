@@ -11,7 +11,8 @@ export const driversConfig = {
     exchangesMapping: [
         {
             pair: "ETH/BTC",
-            exchanges: [BINANCE, BITFINEX, BITSTAMP, BITTREX, POLONIEX, OKEX, GDAX],
+            exchanges: [BINANCE, BITFINEX, BITSTAMP, BITTREX, POLONIEX, OKEX],
+            /* GDAx */
         },
         {
             pair: "XLM/BTC",
@@ -31,7 +32,8 @@ export const driversConfig = {
         },
         {
             pair: "LTC/BTC",
-            exchanges: [BINANCE, BITFINEX, BITSTAMP, BITTREX, POLONIEX, OKEX, GDAX],
+            exchanges: [BINANCE, BITFINEX, BITSTAMP, BITTREX, POLONIEX, OKEX],
+            /* GDAx */
         },
         {
             pair: "LTC/ETH",

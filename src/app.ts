@@ -19,6 +19,8 @@ dotenv.config({ path: ".env.example" });
 
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
+import Exchange from "./models/schemas/exchangeDataSchema";
+import { TickerManager } from "./tickerManager";
 
 // Create Express server
 const app = express();
@@ -78,6 +80,10 @@ app.use(
 /**
  * Primary app routes.
  */
+
 app.get("/", homeController.index);
+
+app.get("/status", (req, res) => {
+});
 
 export default app;

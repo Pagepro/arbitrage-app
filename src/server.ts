@@ -1,7 +1,6 @@
 import errorHandler from "errorhandler";
 
 import app from "./app";
-
 import { TickerManager } from "./tickerManager";
 
 /**
@@ -21,9 +20,7 @@ const server = app.listen(app.get("port"), () => {
     app.get("env")
   );
   console.log("  Press CTRL-C to stop\n");
-
-  // TickerManager.startRequests();
-
+  TickerManager.startRequests();
 });
 
 export default server;
