@@ -36,7 +36,17 @@ export const driversConfig = {
         {
             pair: "LTC/ETH",
             exchanges: [BINANCE, BITTREX, OKEX]
+        },
+        /*
+        {
+            pair: "EOS/BTC",
+            exchanges: [BINANCE, BITFINEX, OKEX]
+        },
+        {
+            pair: "EOS/ETH",
+            exchanges: [BINANCE, BITFINEX, OKEX]
         }
+        */
     ],
     driversMapping: {
         [BINANCE]: BinanceDriver,
