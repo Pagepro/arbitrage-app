@@ -2,4 +2,4 @@
 
 npm install
 npm run build
-cp -a dist/ ../arbitrage-app/
+cp -a dist/ ../arbitrage_app/
