@@ -6,11 +6,11 @@ import { GDAX } from "../config/exchanges";
 export default class GdaxDriver extends Driver {
 
     prepareUrl(): string {
-        return ``;
+        return `https://api.pro.coinbase.com/products/${this.pair.replace("/", "-")}/ticker`;
     }
 
     transformData(data: any): any {
-        return new Exchange({time: Date.now(), pairName: this.pair, ask: data.sell, bid: data.buy, exchangeName: GDAX});
+        return new Exchange({time: Date.now(), pairName: this.pair, ask: data.ask, bid: data.bid, exchangeName: GDAX});
     }
 
 }

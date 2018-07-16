@@ -19,22 +19,19 @@ export default abstract class Driver {
     abstract transformData(data: any): any;
 
     private saveData(exchange: any) {
-        if (!exchange.ask || !exchange.bid)
-            return driversConfig.timeInterval;
+        if (!exchange.ask || !exchange.bid) return;
         exchange.save((error: any) => {
             if (error)
-                throw error;
+                console.log(error);
         });
-        return driversConfig.timeInterval;
     }
 
-    public sendRequest(timeoutValue: number) {
-        axios.get(this.prepareUrl(), {
-            timeout: timeoutValue
+    public sendRequest() {
+        return axios.get(this.prepareUrl(), {
+            timeout: driversConfig.timeInterval
         }).then(({ data }: { data: any }) => data)
         .then(this.transformData)
         .then(this.saveData)
-        .then(this.sendRequest)
         .catch((error: any) => {
             console.log(error);
         });

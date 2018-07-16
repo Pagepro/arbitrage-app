@@ -2,17 +2,22 @@ import { driversConfig } from "./config/driversConfig";
 
 export namespace TickerManager {
 
+    function runDriver (driverClass: any, pairName: any) {
+        const driver = new driverClass(pairName);
+        driver.sendRequest()
+        .then(() => {
+            runDriver(driverClass, pairName);
+        });
+    }
+
     export function startRequests() {
-        // For every single currency pair
-        for (let i = 0; i < driversConfig.exchangesMapping.length; i++) {
-            // For all its exchanges
-            const pair = driversConfig.exchangesMapping[i].pair;
-            for (let j = 0; j < driversConfig.exchangesMapping[i].exchanges.length; j++) {
-                const exchangeName = driversConfig.exchangesMapping[i].exchanges[j];
+
+        for (const exchange of driversConfig.exchangesMapping) {
+            const pairName = exchange.pair;
+            for (const exchangeName of exchange.exchanges) {
                 const driverClasses = driversConfig.driversMapping;
                 const driverClass = (<any>driverClasses)[exchangeName];
-                const driver = new driverClass(pair);
-                driver.sendRequest(driversConfig.timeInterval);
+                runDriver(driverClass, pairName);
             }
         }
     }

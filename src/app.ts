@@ -8,6 +8,7 @@ import mongo from "connect-mongo";
 import path from "path";
 import mongoose from "mongoose";
 import passport from "passport";
+import moment from "moment";
 import expressValidator from "express-validator";
 import bluebird from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
@@ -84,6 +85,10 @@ app.use(
 app.get("/", homeController.index);
 
 app.get("/status", (req, res) => {
+  Exchange.findOne({}, undefined, {sort: {time: -1 }})
+  .then((data: any) => {
+    res.send(`Last update: ${moment(data.time, "YYYYMMDD").fromNow()}`);
+  });
 });
 
 export default app;
