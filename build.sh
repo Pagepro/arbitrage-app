@@ -2,4 +2,6 @@
 
 npm install
 npm run build
-cp -a dist/ ../arbitrage_app/
+pm2 stop 'all'
+pm2 start mongod
+npm start
