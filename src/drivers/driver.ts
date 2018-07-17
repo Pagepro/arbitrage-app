@@ -1,6 +1,7 @@
 const axios = require("axios");
 
 import { driversConfig } from "../config/driversConfig";
+import logger from "../util/logger";
 
 export default abstract class Driver {
 
@@ -21,8 +22,9 @@ export default abstract class Driver {
     private saveData(exchange: any) {
         if (!exchange.ask || !exchange.bid) return;
         exchange.save((error: any) => {
-            if (error)
-                console.log(error);
+            if (error) {
+                logger.log("error", error.message);
+            }
         });
     }
 
@@ -33,7 +35,7 @@ export default abstract class Driver {
         .then(this.transformData)
         .then(this.saveData)
         .catch((error: any) => {
-            console.log(error);
+            logger.log("error", error.message);
         });
     }
 
