@@ -18,15 +18,24 @@ export const driversConfig = {
             exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
         },
         {
-            pair: "XLM/ETH",
-            exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
-        },
-        {
             pair: "NEO/BTC",
             exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
         },
         {
             pair: "NEO/ETH",
+            exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
+        },
+        {
+            pair: "EOS/BTC",
+            exchanges: [BINANCE, BITFINEX, OKEX]
+        },
+        {
+            pair: "EOS/ETH",
+            exchanges: [BINANCE, BITFINEX, OKEX]
+        }
+        /*
+        {
+            pair: "XLM/ETH",
             exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
         },
         {
@@ -37,15 +46,6 @@ export const driversConfig = {
             pair: "LTC/ETH",
             exchanges: [BINANCE, BITTREX, OKEX]
         },
-        /*
-        {
-            pair: "EOS/BTC",
-            exchanges: [BINANCE, BITFINEX, OKEX]
-        },
-        {
-            pair: "EOS/ETH",
-            exchanges: [BINANCE, BITFINEX, OKEX]
-        }
         */
     ],
     driversMapping: {
