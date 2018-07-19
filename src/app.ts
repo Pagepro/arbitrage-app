@@ -95,4 +95,8 @@ app.get("/api/config", (req, res) => {
   res.send(driversConfig.exchangesMapping);
 });
 
+app.get("/api/websocket", (req, res) => {
+  res.send(driversConfig.websocketURL);
+});
+
 export default app;

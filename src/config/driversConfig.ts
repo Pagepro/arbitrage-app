@@ -57,5 +57,6 @@ export const driversConfig = {
         [OKEX]: OkexDriver,
         [GDAX]: GdaxDriver
     },
-    timeInterval: 5000
+    timeInterval: 5000,
+    websocketURL: "ws://localhost:3000"
 };
