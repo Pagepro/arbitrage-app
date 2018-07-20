@@ -11,8 +11,20 @@ class WebsocketManager {
     private static manager: WebsocketManager;
 
     private constructor() {
-       this.websocketServer.on("connection", WebsocketManager.onWebsocketConnection);
+       this.initializeWebsocketConnections();
+    }
+
+    public static getInstance(): WebsocketManager {
+        if (this.manager == undefined) {
+            this.manager = new WebsocketManager();
+        }
+
+        return this.manager;
+    }
+
+    private initializeWebsocketConnections() {
         const wss = this.websocketServer;
+        wss.on("connection", WebsocketManager.onWebsocketConnection);
         setInterval(() => {
             wss.clients.forEach((websocket: any) => {
                 if (websocket.isAlive === false) {
@@ -23,14 +35,6 @@ class WebsocketManager {
                 websocket.ping(() => {});
             });
         }, 30000);
-    }
-
-    public static getInstance(): WebsocketManager {
-        if (this.manager == undefined) {
-            this.manager = new WebsocketManager();
-        }
-
-        return this.manager;
     }
 
     public static onWebsocketConnection(webSocket: any) {
