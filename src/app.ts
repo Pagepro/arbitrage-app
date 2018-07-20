@@ -21,7 +21,7 @@ dotenv.config({ path: ".env.example" });
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
 import Exchange from "./models/schemas/exchangeDataSchema";
-import { driversConfig } from "./config/driversConfig";
+import driversConfig from "./config/driversConfig";
 
 // Create Express server
 const app = express();
@@ -93,10 +93,6 @@ app.get("/status", (req, res) => {
 
 app.get("/api/config", (req, res) => {
   res.send(driversConfig.exchangesMapping);
-});
-
-app.get("/api/websocket", (req, res) => {
-  res.send(driversConfig.websocketURL);
 });
 
 export default app;

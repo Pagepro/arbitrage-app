@@ -1,10 +1,6 @@
 import errorHandler from "errorhandler";
-
 import app from "./app";
-
 import { TickerManager } from "./tickerManager";
-
-import Exchange from "./models/schemas/exchangeDataSchema";
 
 /**
  * Error Handler. Provides full stack - remove for production

@@ -1,4 +1,4 @@
-import { driversConfig } from "./config/driversConfig";
+import driversConfig from "./config/driversConfig";
 
 export namespace TickerManager {
 
@@ -11,7 +11,6 @@ export namespace TickerManager {
     }
 
     export function startRequests() {
-
         for (const exchange of driversConfig.exchangesMapping) {
             const pairName = exchange.pair;
             for (const exchangeName of exchange.exchanges) {

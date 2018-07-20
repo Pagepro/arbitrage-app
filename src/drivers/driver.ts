@@ -1,7 +1,7 @@
 const axios = require("axios");
 
-import { driversConfig } from "../config/driversConfig";
-import { WebsocketManager } from "../WebsocketManager";
+import driversConfig from "../config/driversConfig";
+import WebsocketManager from "../WebsocketManager";
 
 export default abstract class Driver {
 
