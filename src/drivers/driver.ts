@@ -27,6 +27,7 @@ export default abstract class Driver {
               logger.log("error", error.message);
               return;
           }
+
           WebsocketManager.getInstance().sendObjectMessage(exchange);
         });
     }

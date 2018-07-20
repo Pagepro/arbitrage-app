@@ -5,7 +5,7 @@ class WebsocketManager {
 
     private websocketServer = new WebSocket.Server({
         server,
-        path: "/ws/websocket"
+        path: "/ws/exchanges"
     });
 
     private static manager: WebsocketManager;
@@ -18,6 +18,7 @@ class WebsocketManager {
                 if (websocket.isAlive === false) {
                     return websocket.terminate();
                 }
+
                 websocket.isAlive = false;
                 websocket.ping(() => {});
             });
@@ -28,6 +29,7 @@ class WebsocketManager {
         if (this.manager == undefined) {
             this.manager = new WebsocketManager();
         }
+
         return this.manager;
     }
 
