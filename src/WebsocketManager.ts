@@ -15,11 +15,7 @@ class WebsocketManager {
     }
 
     public static getInstance(): WebsocketManager {
-        if (this.manager == undefined) {
-            this.manager = new WebsocketManager();
-        }
-
-        return this.manager;
+        return this.manager || (this.manager = new WebsocketManager());
     }
 
     private initializeWebsocketConnections() {
@@ -47,7 +43,7 @@ class WebsocketManager {
     }
 
     public sendStringMessage(exchange: string) {
-        this.websocketServer.clients.forEach((client) => {
+        this.websocketServer.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
               client.send(exchange);
             }
