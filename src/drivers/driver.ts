@@ -2,6 +2,7 @@ const axios = require("axios");
 
 import { driversConfig } from "../config/driversConfig";
 import { WebsocketManager } from "../WebsocketManager";
+import logger from "../util/logger";
 
 export default abstract class Driver {
 
@@ -22,9 +23,12 @@ export default abstract class Driver {
     private saveData(exchange: any) {
         if (!exchange.ask || !exchange.bid) return;
         exchange.save((error: any) => {
-        if (error)
-            console.log(error);
-        WebsocketManager.getInstance().sendObjectMessage(exchange);
+          if (error) {
+              logger.log("error", error.message);
+              return
+          }
+          
+          WebsocketManager.getInstance().sendObjectMessage(exchange);
         });
     }
 
@@ -34,7 +38,9 @@ export default abstract class Driver {
         }).then(({ data }: { data: any }) => data)
         .then(this.transformData)
         .then(this.saveData)
-        .catch((error: any) => {});
+        .catch((error: any) => {
+            logger.log("error", error.message);
+        });
     }
 
 }
