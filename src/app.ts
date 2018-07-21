@@ -76,7 +76,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
+app.use("/public",
   express.static(serverConfig.staticFilesDir, { maxAge: 31557600000 })
 );
 
