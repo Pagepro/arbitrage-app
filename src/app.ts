@@ -11,7 +11,9 @@ import passport from "passport";
 import moment from "moment";
 import expressValidator from "express-validator";
 import bluebird from "bluebird";
+import "./extensions";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
+import serverConfig from "./config/serverConfig";
 
 const MongoStore = mongo(session);
 
@@ -19,9 +21,8 @@ const MongoStore = mongo(session);
 dotenv.config({ path: ".env.example" });
 
 // Controllers (route handlers)
-import * as homeController from "./controllers/home";
+import * as indexController from "./controllers";
 import Exchange from "./models/schemas/exchangeDataSchema";
-import { TickerManager } from "./tickerManager";
 
 // Create Express server
 const app = express();
@@ -37,7 +38,7 @@ mongoose.connect(mongoUrl, {useMongoClient: true}).catch(err => {
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -75,20 +76,20 @@ app.use((req, res, next) => {
 });
 
 app.use(
-  express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+  express.static(serverConfig.staticFilesDir, { maxAge: 31557600000 })
 );
 
 /**
  * Primary app routes.
  */
 
-app.get("/", homeController.index);
-
 app.get("/status", (req, res) => {
   Exchange.findOne({}, undefined, {sort: {time: -1 }})
   .then((data: any) => {
-    res.send(`Last update: ${moment(data.time, "YYYYMMDD").fromNow()}`);
+    res.send(`Last update: ${moment(data.time, "YYYMMDD").fromNow()}`);
   });
 });
+
+app.get("*", indexController.index);
 
 export default app;
