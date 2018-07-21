@@ -7,7 +7,7 @@ import PoloniexDriver from "../drivers/poloniexDriver";
 import OkexDriver from "../drivers/okexDriver";
 import GdaxDriver from "../drivers/gdaxDriver";
 
-export const driversConfig = {
+const driversConfig = {
     exchangesMapping: [
         {
             pair: "ETH/BTC",
@@ -33,20 +33,6 @@ export const driversConfig = {
             pair: "EOS/ETH",
             exchanges: [BINANCE, BITFINEX, OKEX]
         }
-        /*
-        {
-            pair: "XLM/ETH",
-            exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
-        },
-        {
-            pair: "LTC/BTC",
-            exchanges: [BINANCE, BITFINEX, BITSTAMP, BITTREX, POLONIEX, OKEX, GDAX]
-        },
-        {
-            pair: "LTC/ETH",
-            exchanges: [BINANCE, BITTREX, OKEX]
-        },
-        */
     ],
     driversMapping: {
         [BINANCE]: BinanceDriver,
@@ -59,3 +45,5 @@ export const driversConfig = {
     },
     timeInterval: 5000
 };
+
+export default driversConfig;

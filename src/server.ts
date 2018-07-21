@@ -1,11 +1,11 @@
 import errorHandler from "errorhandler";
-
 import app from "./app";
-import { TickerManager } from "./tickerManager";
+import TickerManager from "./tickerManager";
 
 /**
  * Error Handler. Provides full stack - remove for production
  */
+
 if (process.env.NODE_ENV !== "production") {
   app.use(errorHandler());
 }
@@ -20,7 +20,7 @@ const server = app.listen(app.get("port"), () => {
     app.get("env")
   );
   console.log("  Press CTRL-C to stop\n");
-  TickerManager.startRequests();
+  TickerManager.getInstance().startRequests();
 });
 
 export default server;

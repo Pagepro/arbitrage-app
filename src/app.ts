@@ -23,6 +23,7 @@ dotenv.config({ path: ".env.example" });
 // Controllers (route handlers)
 import * as indexController from "./controllers";
 import Exchange from "./models/schemas/exchangeDataSchema";
+import driversConfig from "./config/driversConfig";
 
 // Create Express server
 const app = express();
@@ -86,8 +87,12 @@ app.use(
 app.get("/status", (req, res) => {
   Exchange.findOne({}, undefined, {sort: {time: -1 }})
   .then((data: any) => {
-    res.send(`Last update: ${moment(data.time, "YYYMMDD").fromNow()}`);
+    res.send(`Last update: ${moment(data.time, "YYYYMMDD").fromNow()} (${data.time})`);
   });
+});
+
+app.get("/api/config", (req, res) => {
+  res.send(driversConfig.exchangesMapping);
 });
 
 app.get("*", indexController.index);
