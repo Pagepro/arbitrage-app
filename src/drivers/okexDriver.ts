@@ -6,7 +6,7 @@ import { OKEX } from "../config/exchanges";
 export default class OkexDriver extends Driver {
 
     prepareUrl(): string {
-        return `https://www.okex.com/api/v1/ticker.do?symbol=${this.pair.replace("/", "_")}`;
+        return `https://www.okex.com/api/v1/ticker.do?symbol=${this.pair.replace("/", "_").toLowerCase()}`;
     }
 
     transformData(data: any): any {
