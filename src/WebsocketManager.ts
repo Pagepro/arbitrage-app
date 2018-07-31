@@ -1,5 +1,6 @@
 import * as WebSocket from "ws";
 import server from "./server";
+import Spread from "./models/schemas/spreadDataSchema";
 
 class WebsocketManager {
 
@@ -37,7 +38,7 @@ class WebsocketManager {
         }, 30000);
     }
 
-    public static onWebsocketConnection(webSocket: any) {
+    private static onWebsocketConnection(webSocket: any) {
         webSocket.isAlive = true;
         webSocket.on("pong", WebsocketManager.heartbeat);
     }

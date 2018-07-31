@@ -3,6 +3,8 @@ const axios = require("axios");
 import driversConfig from "../config/driversConfig";
 import WebsocketManager from "../WebsocketManager";
 import logger from "../util/logger";
+import Exchange from "../models/schemas/exchangeDataSchema";
+import Spread from "../models/schemas/spreadDataSchema";
 
 export default abstract class Driver {
 
@@ -14,6 +16,7 @@ export default abstract class Driver {
         this.prepareUrl = this.prepareUrl.bind(this);
         this.transformData = this.transformData.bind(this);
         this.saveData = this.saveData.bind(this);
+        this.saveSpreads = this.saveSpreads.bind(this);
     }
 
     abstract prepareUrl(): string;
@@ -30,6 +33,48 @@ export default abstract class Driver {
 
           WebsocketManager.getInstance().sendObjectMessage(exchange);
         });
+        return exchange;
+    }
+
+    public saveSpreads(exchange: any) {
+        if (exchange === undefined) return;
+        /* Saving spreads */
+        for (let i = 0; i < driversConfig.exchangesMapping.length; i++) {
+            if (driversConfig.exchangesMapping[i].pair === exchange.pairName) {
+                for (let j = 0; j < driversConfig.exchangesMapping[i].exchanges.length; j++) {
+                const secondExchangeName = driversConfig.exchangesMapping[i].exchanges[j];
+                    if (secondExchangeName !== exchange.exchangeName) {
+
+                        /* To do
+
+                        FindOne() method extremely slows (or literally stops) everything, even ticker requests.
+                        Dunno why that happens, save() method without running findOne works fine
+
+                        Anywayz, we need to save two spread values for each exchanges pair (buySpreadTicker and sellSpreadTicker) in commented code below
+
+                        To do */
+
+
+                        /*
+                        Exchange.findOne({ pairName: exchange.pairName, exchangeName: secondExchangeName }, undefined, {sort: {time: -1 }})
+                        .then((data: any) => {
+                            if (exchange.time - data.time < 10000) {
+                                const buySpread = Math.round(((data.bid * 100 / exchange.ask) - 100) * 100) / 100;
+                                const buySpreadTicker = new Spread({pairName: exchange.pairName, buyExchange: exchange.exchangeName, sellExchange: secondExchangeName, spread: buySpread, time: exchange.time});
+                                buySpreadTicker.save((error: any) => {
+                                });
+                                const sellSpread = Math.round(((exchange.bid * 100 / data.ask) - 100) * 100) / 100;
+                                const sellSpreadTicker = new Spread({pairName: exchange.pairName, buyExchange: secondExchangeName, sellExchange: exchange.exchangeName, spread: buySpread, time: exchange.time});
+                                sellSpreadTicker.save((error: any) => {
+                                });
+                            }
+                        });
+                        */
+                    }
+                }
+            }
+        }
+
     }
 
     public sendRequest() {
@@ -38,6 +83,7 @@ export default abstract class Driver {
         }).then(({ data }: { data: any }) => data)
         .then(this.transformData)
         .then(this.saveData)
+        .then(this.saveSpreads)
         .catch((error: any) => {
             logger.log("error", error.message);
         });

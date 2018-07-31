@@ -22,6 +22,7 @@ dotenv.config({ path: ".env.example" });
 import * as homeController from "./controllers/home";
 import Exchange from "./models/schemas/exchangeDataSchema";
 import driversConfig from "./config/driversConfig";
+import Spread from "./models/schemas/spreadDataSchema";
 
 // Create Express server
 const app = express();
@@ -93,6 +94,23 @@ app.get("/status", (req, res) => {
 
 app.get("/api/config", (req, res) => {
   res.send(driversConfig.exchangesMapping);
+});
+
+app.get("/api/history/:pair", (req, res) => {
+  Spread.find({ pairName: req.params.pair.replace("-", "/") }, undefined, {sort: {spread: -1 }})
+  .then((spreads: any) => {
+    let spread;
+    for (let i = 0; i < spreads.length; i++) {
+      if (Date.now() - spreads[i].time < 86400000) {
+        spread = spreads[i];
+        break;
+      }
+    }
+
+    if (spread !== undefined) {
+      res.send(spread);
+    }
+  });
 });
 
 export default app;
