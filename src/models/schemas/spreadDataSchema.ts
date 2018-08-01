@@ -15,13 +15,17 @@ const spreadDataSchema = new mongoose.Schema({
     },
     spread: {
         type: Number,
-        required: true
+        required: true,
+        index: true
     },
     time: {
         type: Date,
-        required: true
+        required: true,
+        index: true
     }
 });
+
+spreadDataSchema.index({ time: -1, spread: -1 });
 
 const Spread = mongoose.model("Spread", spreadDataSchema);
 

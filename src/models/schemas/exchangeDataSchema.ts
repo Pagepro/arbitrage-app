@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const exchangeDataSchema = new mongoose.Schema({
     time: {
         type: Date,
-        required: true
+        required: true,
+        index: true
     },
     pairName: {
         type: String,
@@ -22,6 +23,8 @@ const exchangeDataSchema = new mongoose.Schema({
         required: true
     }
 });
+
+exchangeDataSchema.index({ time: -1 });
 
 const Exchange = mongoose.model("Exchange", exchangeDataSchema);
 
