@@ -35,7 +35,7 @@ class WebsocketManager {
                 websocket.isAlive = false;
                 websocket.ping(() => {});
             });
-        }, 30000);
+        }, 10000);
     }
 
     private static onWebsocketConnection(webSocket: any) {
