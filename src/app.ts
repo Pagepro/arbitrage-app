@@ -98,8 +98,13 @@ app.get("/api/config", (req, res) => {
 
 app.get("/api/history/:pair", (req, res) => {
   Spread.findOne({ pairName: req.params.pair.replace("-", "/"), time: { $gte: Date.now() - 86400000 } }, undefined, {sort: {spread: -1 }})
-  .then((spread) => {
-    res.send(spread !== undefined ? spread : 0);
+  .then((spread: any) => {
+    if (spread) {
+      spread.time = spread.time.valueOf();
+      res.send(spread !== undefined ? spread : 0);
+    } else {
+      res.end();
+    }
   });
 });
 
