@@ -39,24 +39,21 @@ export default abstract class Driver {
 
     public saveSpreads(exchange: any) {
         if (exchange === undefined) return;
-        /* Saving spreads */
-        for (let i = 0; i < driversConfig.exchangesMapping.length; i++) {
-            if (driversConfig.exchangesMapping[i].pair === exchange.pairName) {
-                for (let j = 0; j < driversConfig.exchangesMapping[i].exchanges.length; j++) {
-                const secondExchangeName = driversConfig.exchangesMapping[i].exchanges[j];
-                    if (secondExchangeName !== exchange.exchangeName) {
 
-                        Exchange.findOne({ pairName: exchange.pairName, exchangeName: secondExchangeName }, undefined, {sort: {time: -1 }})
+        for (const pairConfig of driversConfig.exchangesMapping) {
+            if (pairConfig.pair === exchange.pairName) {
+                for (const exchangeName of pairConfig.exchanges) {
+                    if (exchangeName !== exchange.exchangeName) {
+
+                        Exchange.findOne({ pairName: exchange.pairName, exchangeName: exchangeName, time: { $gte: exchange.time - 10000 } }, undefined, {sort: {time: -1 }})
                         .then((data: any) => {
-                            if (exchange.time - data.time < 10000) {
+                            if (data) {
                                 const buySpread = calculateSpread(exchange.ask, data.bid);
-                                const buySpreadTicker = new Spread({pairName: exchange.pairName, buyExchange: exchange.exchangeName, sellExchange: secondExchangeName, spread: buySpread, time: exchange.time});
-                                buySpreadTicker.save((error: any) => {
-                                });
+                                const buySpreadTicker = new Spread({pairName: exchange.pairName, buyExchange: exchange.exchangeName, sellExchange: exchangeName, spread: buySpread, time: exchange.time});
+                                buySpreadTicker.save();
                                 const sellSpread = calculateSpread(data.ask, exchange.bid);
-                                const sellSpreadTicker = new Spread({pairName: exchange.pairName, buyExchange: secondExchangeName, sellExchange: exchange.exchangeName, spread: buySpread, time: exchange.time});
-                                sellSpreadTicker.save((error: any) => {
-                                });
+                                const sellSpreadTicker = new Spread({pairName: exchange.pairName, buyExchange: exchangeName, sellExchange: exchange.exchangeName, spread: buySpread, time: exchange.time});
+                                sellSpreadTicker.save();
                             }
                         });
                     }

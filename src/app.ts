@@ -11,7 +11,9 @@ import passport from "passport";
 import moment from "moment";
 import expressValidator from "express-validator";
 import bluebird from "bluebird";
+import "./extensions";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
+import serverConfig from "./config/serverConfig";
 
 const MongoStore = mongo(session);
 
@@ -19,7 +21,7 @@ const MongoStore = mongo(session);
 dotenv.config({ path: ".env.example" });
 
 // Controllers (route handlers)
-import * as homeController from "./controllers/home";
+import * as indexController from "./controllers";
 import Exchange from "./models/schemas/exchangeDataSchema";
 import driversConfig from "./config/driversConfig";
 import Spread from "./models/schemas/spreadDataSchema";
@@ -38,7 +40,7 @@ mongoose.connect(mongoUrl, {useMongoClient: true}).catch(err => {
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -75,15 +77,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+app.use("/public",
+  express.static(serverConfig.staticFilesDir, { maxAge: 31557600000 })
 );
 
 /**
  * Primary app routes.
  */
-
-app.get("/", homeController.index);
 
 app.get("/status", (req, res) => {
   Exchange.findOne({}, undefined, {sort: {time: -1 }})
@@ -97,20 +97,12 @@ app.get("/api/config", (req, res) => {
 });
 
 app.get("/api/history/:pair", (req, res) => {
-  Spread.find({ pairName: req.params.pair.replace("-", "/") }, undefined, {sort: {spread: -1 }})
-  .then((spreads: any) => {
-    let spread;
-    for (let i = 0; i < spreads.length; i++) {
-      if (Date.now() - spreads[i].time < 86400000) {
-        spread = spreads[i];
-        break;
-      }
-    }
-
-    if (spread !== undefined) {
-      res.send(spread);
-    }
+  Spread.findOne({ pairName: req.params.pair.replace("-", "/"), time: { $gte: Date.now() - 86400000 } }, undefined, {sort: {spread: -1 }})
+  .then((spread) => {
+    res.send(spread !== undefined ? spread : 0);
   });
 });
+
+app.get("*", indexController.index);
 
 export default app;
