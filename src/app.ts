@@ -8,7 +8,6 @@ import mongo from "connect-mongo";
 import path from "path";
 import mongoose from "mongoose";
 import passport from "passport";
-import moment from "moment";
 import expressValidator from "express-validator";
 import bluebird from "bluebird";
 import "./extensions";
@@ -22,9 +21,9 @@ dotenv.config({ path: ".env.example" });
 
 // Controllers (route handlers)
 import * as indexController from "./controllers";
-import Exchange from "./models/schemas/exchangeDataSchema";
-import driversConfig from "./config/driversConfig";
-import Spread from "./models/schemas/spreadDataSchema";
+import configController from "./controllers/config";
+import statusController from "./controllers/status";
+import historyController from "./controllers/history";
 
 // Create Express server
 const app = express();
@@ -85,28 +84,11 @@ app.use("/public",
  * Primary app routes.
  */
 
-app.get("/status", (req, res) => {
-  Exchange.findOne({}, undefined, {sort: {time: -1 }})
-  .then((data: any) => {
-    res.send(`Last update: ${moment(data.time, "YYYYMMDD").fromNow()} (${data.time})`);
-  });
-});
+app.get("/status", statusController);
 
-app.get("/api/config", (req, res) => {
-  res.send(driversConfig.exchangesMapping);
-});
+app.get("/api/config", configController);
 
-app.get("/api/history/:pair", (req, res) => {
-  Spread.findOne({ pairName: req.params.pair.replace("-", "/"), time: { $gte: Date.now() - 86400000 } }, undefined, {sort: {spread: -1 }})
-  .then((spread: any) => {
-    if (spread) {
-      spread.time = spread.time.valueOf();
-      res.send(spread !== undefined ? spread : 0);
-    } else {
-      res.end();
-    }
-  });
-});
+app.get("/api/history/:pair", historyController);
 
 app.get("*", indexController.index);
 

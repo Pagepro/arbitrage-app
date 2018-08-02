@@ -2,6 +2,10 @@ import * as WebSocket from "ws";
 import server from "./server";
 import Spread from "./models/schemas/spreadDataSchema";
 
+class ExtendedWebSocket extends WebSocket.Server {
+    isAlive: boolean;
+}
+
 class WebsocketManager {
 
     private websocketServer = new WebSocket.Server({
@@ -34,12 +38,12 @@ class WebsocketManager {
         }, 10000);
     }
 
-    private static onWebsocketConnection(webSocket: any) {
+    private static onWebsocketConnection(webSocket: ExtendedWebSocket) {
         webSocket.isAlive = true;
         webSocket.on("pong", WebsocketManager.heartbeat);
     }
 
-    private static heartbeat(webSocket: any) {
+    private static heartbeat(webSocket: ExtendedWebSocket) {
       webSocket.isAlive = true;
     }
 
