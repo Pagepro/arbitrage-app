@@ -3,6 +3,9 @@ const axios = require("axios");
 import driversConfig from "../config/driversConfig";
 import WebsocketManager from "../WebsocketManager";
 import logger from "../util/logger";
+import Exchange from "../models/schemas/exchangeDataSchema";
+import Spread from "../models/schemas/spreadDataSchema";
+import calculateSpread from "../util/spreadCalculator";
 
 export default abstract class Driver {
 
@@ -14,6 +17,7 @@ export default abstract class Driver {
         this.prepareUrl = this.prepareUrl.bind(this);
         this.transformData = this.transformData.bind(this);
         this.saveData = this.saveData.bind(this);
+        this.saveSpreads = this.saveSpreads.bind(this);
     }
 
     abstract prepareUrl(): string;
@@ -30,6 +34,48 @@ export default abstract class Driver {
 
           WebsocketManager.getInstance().sendObjectMessage(exchange);
         });
+        return exchange;
+    }
+
+    public saveSpreads(exchange: any) {
+        if (exchange === undefined) return;
+
+        for (const pairConfig of driversConfig.exchangesMapping) {
+            if (pairConfig.pair === exchange.pairName) {
+                for (const exchangeName of pairConfig.exchanges) {
+                    if (exchangeName !== exchange.exchangeName) {
+
+                        Exchange.findOne(
+                            { pairName: exchange.pairName, exchangeName: exchangeName, time: { $gte: exchange.time - 10000 } },
+                            undefined, {sort: {time: -1 }})
+                        .then((data: any) => {
+
+                            if (data) {
+                                const buySpread = calculateSpread(exchange.ask, data.bid);
+                                const buySpreadTicker = new Spread({
+                                    pairName: exchange.pairName,
+                                    buyExchange: exchange.exchangeName,
+                                    sellExchange: exchangeName,
+                                    spread: buySpread,
+                                    time: exchange.time});
+
+                                buySpreadTicker.save();
+
+                                const sellSpread = calculateSpread(data.ask, exchange.bid);
+                                const sellSpreadTicker = new Spread({
+                                    pairName: exchange.pairName,
+                                    buyExchange: exchangeName,
+                                    sellExchange: exchange.exchangeName,
+                                    spread: buySpread,
+                                    time: exchange.time});
+
+                                sellSpreadTicker.save();
+                            }
+                        });
+                    }
+                }
+            }
+        }
     }
 
     public sendRequest() {
@@ -38,6 +84,7 @@ export default abstract class Driver {
         }).then(({ data }: { data: any }) => data)
         .then(this.transformData)
         .then(this.saveData)
+        .then(this.saveSpreads)
         .catch((error: any) => {
             logger.log("error", error.message);
         });

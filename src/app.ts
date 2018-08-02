@@ -8,7 +8,6 @@ import mongo from "connect-mongo";
 import path from "path";
 import mongoose from "mongoose";
 import passport from "passport";
-import moment from "moment";
 import expressValidator from "express-validator";
 import bluebird from "bluebird";
 import "./extensions";
@@ -22,8 +21,9 @@ dotenv.config({ path: ".env.example" });
 
 // Controllers (route handlers)
 import * as indexController from "./controllers";
-import Exchange from "./models/schemas/exchangeDataSchema";
-import driversConfig from "./config/driversConfig";
+import configController from "./controllers/config";
+import statusController from "./controllers/status";
+import historyController from "./controllers/history";
 
 // Create Express server
 const app = express();
@@ -84,16 +84,11 @@ app.use("/public",
  * Primary app routes.
  */
 
-app.get("/status", (req, res) => {
-  Exchange.findOne({}, undefined, {sort: {time: -1 }})
-  .then((data: any) => {
-    res.send(`Last update: ${moment(data.time, "YYYYMMDD").fromNow()} (${data.time})`);
-  });
-});
+app.get("/status", statusController);
 
-app.get("/api/config", (req, res) => {
-  res.send(driversConfig.exchangesMapping);
-});
+app.get("/api/config", configController);
+
+app.get("/api/history/:pair", historyController);
 
 app.get("*", indexController.index);
 
