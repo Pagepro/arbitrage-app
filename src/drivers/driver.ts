@@ -66,7 +66,7 @@ export default abstract class Driver {
                                     pairName: exchange.pairName,
                                     buyExchange: exchangeName,
                                     sellExchange: exchange.exchangeName,
-                                    spread: buySpread,
+                                    spread: sellSpread,
                                     time: exchange.time});
 
                                 sellSpreadTicker.save();

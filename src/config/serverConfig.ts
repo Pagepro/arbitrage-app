@@ -5,3 +5,5 @@ export default {
     return path.join(__dirname, "..", "public");
   }
 };
+
+export const expireTime = 1209600;
