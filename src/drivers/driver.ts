@@ -6,6 +6,8 @@ import logger from "../util/logger";
 import Exchange from "../models/schemas/exchangeDataSchema";
 import Spread from "../models/schemas/spreadDataSchema";
 import calculateSpread from "../util/spreadCalculator";
+import { thresholdSpreadValue } from "../config/SlackConfig";
+import SlackManager from "../SlackManager";
 
 export default abstract class Driver {
 
@@ -66,10 +68,19 @@ export default abstract class Driver {
                                     pairName: exchange.pairName,
                                     buyExchange: exchangeName,
                                     sellExchange: exchange.exchangeName,
-                                    spread: buySpread,
+                                    spread: sellSpread,
                                     time: exchange.time});
 
                                 sellSpreadTicker.save();
+
+                                if (buySpread >= thresholdSpreadValue) {
+                                    SlackManager.getInstance().sendNotifications(buySpreadTicker);
+                                }
+
+                                if (sellSpread >= thresholdSpreadValue) {
+                                    SlackManager.getInstance().sendNotifications(sellSpreadTicker);
+                                }
+
                             }
                         });
                     }

@@ -12,7 +12,7 @@ export default class BittrexDriver extends Driver {
 
     transformData(data: any): any {
         const result = data.result;
-        return new Exchange({time: Date.now(), pairName: this.pair, ask: result.Bid, bid: result.Ask, exchangeName: BITTREX});
+        return new Exchange({time: Date.now(), pairName: this.pair, ask: result.Ask, bid: result.Bid, exchangeName: BITTREX});
     }
 
 }
