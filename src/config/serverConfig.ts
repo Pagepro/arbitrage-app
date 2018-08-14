@@ -5,3 +5,6 @@ export default {
     return path.join(__dirname, "..", "public");
   }
 };
+
+export const expireTime = 86400;
+export const highSpreadValue = 0.5;

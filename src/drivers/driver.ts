@@ -8,6 +8,7 @@ import Spread from "../models/schemas/spreadDataSchema";
 import calculateSpread from "../util/spreadCalculator";
 import { thresholdSpreadValue } from "../config/SlackConfig";
 import SlackManager from "../SlackManager";
+import { highSpreadValue } from "../config/serverConfig";
 
 export default abstract class Driver {
 
@@ -54,33 +55,36 @@ export default abstract class Driver {
 
                             if (data) {
                                 const buySpread = calculateSpread(exchange.ask, data.bid);
-                                const buySpreadTicker = new Spread({
-                                    pairName: exchange.pairName,
-                                    buyExchange: exchange.exchangeName,
-                                    sellExchange: exchangeName,
-                                    spread: buySpread,
-                                    time: exchange.time});
+                                if (buySpread >= highSpreadValue) {
+                                    const buySpreadTicker = new Spread({
+                                        pairName: exchange.pairName,
+                                        buyExchange: exchange.exchangeName,
+                                        sellExchange: exchangeName,
+                                        spread: buySpread,
+                                        time: exchange.time});
 
-                                buySpreadTicker.save();
+                                    buySpreadTicker.save();
+
+                                    if (buySpread >= thresholdSpreadValue) {
+                                        SlackManager.getInstance().sendNotifications(buySpreadTicker);
+                                    }
+                                }
 
                                 const sellSpread = calculateSpread(data.ask, exchange.bid);
-                                const sellSpreadTicker = new Spread({
-                                    pairName: exchange.pairName,
-                                    buyExchange: exchangeName,
-                                    sellExchange: exchange.exchangeName,
-                                    spread: sellSpread,
-                                    time: exchange.time});
+                                if (sellSpread >= highSpreadValue) {
+                                    const sellSpreadTicker = new Spread({
+                                        pairName: exchange.pairName,
+                                        buyExchange: exchangeName,
+                                        sellExchange: exchange.exchangeName,
+                                        spread: sellSpread,
+                                        time: exchange.time});
 
-                                sellSpreadTicker.save();
+                                    sellSpreadTicker.save();
 
-                                if (buySpread >= thresholdSpreadValue) {
-                                    SlackManager.getInstance().sendNotifications(buySpreadTicker);
+                                    if (sellSpread >= thresholdSpreadValue) {
+                                        SlackManager.getInstance().sendNotifications(sellSpreadTicker);
+                                    }
                                 }
-
-                                if (sellSpread >= thresholdSpreadValue) {
-                                    SlackManager.getInstance().sendNotifications(sellSpreadTicker);
-                                }
-
                             }
                         });
                     }

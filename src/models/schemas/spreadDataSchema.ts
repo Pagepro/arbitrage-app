@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { expireTime } from "../../config/serverConfig";
 
 const spreadDataSchema = new mongoose.Schema({
     pairName: {
@@ -20,8 +21,10 @@ const spreadDataSchema = new mongoose.Schema({
     },
     time: {
         type: Date,
+        default: Date.now(),
         required: true,
-        index: true
+        index: true,
+        expires: expireTime
     }
 });
 
