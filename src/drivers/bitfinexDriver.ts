@@ -5,23 +5,20 @@ import { BITFINEX } from "../config/exchanges";
 
 export default class BitfinexDriver extends Driver {
 
-    private marketRandom: number;
-
     prepareUrl(): string {
         const [
             firstCurrency,
             secondCurrency
         ] = this.pair.split("/");
 
-        this.marketRandom = Math.floor(Math.random() * 3);
+        const marketsURLs = [
+            `https://api.bitfinex.com/v1/pubticker/${firstCurrency}${secondCurrency}`,
+            `http://pagepro.civ.pl/ticker.php?market=bitfinex&coin=${firstCurrency}${secondCurrency}`,
+            `http://pagepro.civ.pl/ticker.php?market=bitfinex&coin=${firstCurrency}${secondCurrency}`
+        ];
 
-        if (this.marketRandom === 0) {
-            return `https://api.bitfinex.com/v1/pubticker/${firstCurrency}${secondCurrency}`;
-        } else if (this.marketRandom === 1) {
-            return `http://pagepro.civ.pl/ticker.php?market=bitfinex&coin=${firstCurrency}${secondCurrency}`;
-        } else {
-            return `http://pagepro.civ.pl/ticker.php?market=bitfinex&coin=${firstCurrency}${secondCurrency}`;
-        }
+        const marketRandom = Math.floor(Math.random() * marketsURLs.length);
+        return marketsURLs[marketRandom];
     }
 
     transformData(data: any): any {
