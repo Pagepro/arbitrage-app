@@ -7,7 +7,8 @@ export default class BittrexDriver extends Driver {
 
     prepareUrl(): string {
         const fixedPair = `${this.pair.split("/")[1]}-${this.pair.split("/")[0]}`;
-        return `https://api.finvea.pl/ticker.php?market=bittrex&coin=${fixedPair}`;
+        // return `https://api.finvea.pl/ticker.php?market=bittrex&coin=${fixedPair}`;
+        return `https://bittrex.com/api/v1.1/public/getticker?market=${fixedPair}`;
     }
 
     transformData(data: any): any {

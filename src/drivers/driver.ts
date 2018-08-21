@@ -6,8 +6,6 @@ import logger from "../util/logger";
 import Exchange from "../models/schemas/exchangeDataSchema";
 import Spread from "../models/schemas/spreadDataSchema";
 import calculateSpread from "../util/spreadCalculator";
-import { thresholdSpreadValue } from "../config/SlackConfig";
-import SlackManager from "../SlackManager";
 import { highSpreadValue } from "../config/serverConfig";
 
 export default abstract class Driver {
@@ -61,13 +59,10 @@ export default abstract class Driver {
                                         buyExchange: exchange.exchangeName,
                                         sellExchange: exchangeName,
                                         spread: buySpread,
-                                        time: exchange.time});
+                                        time: exchange.time
+                                    });
 
                                     buySpreadTicker.save();
-
-                                    if (buySpread >= thresholdSpreadValue) {
-                                        SlackManager.getInstance().sendNotifications(buySpreadTicker);
-                                    }
                                 }
 
                                 const sellSpread = calculateSpread(data.ask, exchange.bid);
@@ -77,13 +72,10 @@ export default abstract class Driver {
                                         buyExchange: exchangeName,
                                         sellExchange: exchange.exchangeName,
                                         spread: sellSpread,
-                                        time: exchange.time});
+                                        time: exchange.time
+                                    });
 
                                     sellSpreadTicker.save();
-
-                                    if (sellSpread >= thresholdSpreadValue) {
-                                        SlackManager.getInstance().sendNotifications(sellSpreadTicker);
-                                    }
                                 }
                             }
                         });

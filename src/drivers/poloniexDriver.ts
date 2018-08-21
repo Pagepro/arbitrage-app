@@ -10,7 +10,11 @@ export default class PoloniexDriver extends Driver {
     }
 
     transformData(data: any): any {
-        const fixedPair = `${this.pair.split("/")[1]}_${this.pair.split("/")[0]}`.replace("XLM", "STR");
+        const [
+            firstCurrency,
+            secondCurrency
+        ] = this.pair.split("/");
+        const fixedPair = `${secondCurrency}_${firstCurrency}`.replace("XLM", "STR");
         const exchange = data[fixedPair];
         return new Exchange({time: Date.now(), pairName: this.pair, ask: exchange.lowestAsk, bid: exchange.highestBid, exchangeName: POLONIEX});
     }
