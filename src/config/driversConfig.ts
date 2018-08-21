@@ -15,7 +15,7 @@ const driversConfig = {
         },
         {
             pair: "XLM/BTC",
-            exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
+            exchanges: [BINANCE, BITFINEX, BITTREX, POLONIEX, OKEX]
         },
         {
             pair: "NEO/BTC",

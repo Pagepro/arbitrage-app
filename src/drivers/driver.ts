@@ -6,6 +6,7 @@ import logger from "../util/logger";
 import Exchange from "../models/schemas/exchangeDataSchema";
 import Spread from "../models/schemas/spreadDataSchema";
 import calculateSpread from "../util/spreadCalculator";
+import { highSpreadValue } from "../config/serverConfig";
 
 export default abstract class Driver {
 
@@ -52,24 +53,30 @@ export default abstract class Driver {
 
                             if (data) {
                                 const buySpread = calculateSpread(exchange.ask, data.bid);
-                                const buySpreadTicker = new Spread({
-                                    pairName: exchange.pairName,
-                                    buyExchange: exchange.exchangeName,
-                                    sellExchange: exchangeName,
-                                    spread: buySpread,
-                                    time: exchange.time});
+                                if (buySpread >= highSpreadValue) {
+                                    const buySpreadTicker = new Spread({
+                                        pairName: exchange.pairName,
+                                        buyExchange: exchange.exchangeName,
+                                        sellExchange: exchangeName,
+                                        spread: buySpread,
+                                        time: exchange.time
+                                    });
 
-                                buySpreadTicker.save();
+                                    buySpreadTicker.save();
+                                }
 
                                 const sellSpread = calculateSpread(data.ask, exchange.bid);
-                                const sellSpreadTicker = new Spread({
-                                    pairName: exchange.pairName,
-                                    buyExchange: exchangeName,
-                                    sellExchange: exchange.exchangeName,
-                                    spread: buySpread,
-                                    time: exchange.time});
+                                if (sellSpread >= highSpreadValue) {
+                                    const sellSpreadTicker = new Spread({
+                                        pairName: exchange.pairName,
+                                        buyExchange: exchangeName,
+                                        sellExchange: exchange.exchangeName,
+                                        spread: sellSpread,
+                                        time: exchange.time
+                                    });
 
-                                sellSpreadTicker.save();
+                                    sellSpreadTicker.save();
+                                }
                             }
                         });
                     }
