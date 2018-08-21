@@ -13,10 +13,6 @@ export default class BitfinexDriver extends Driver {
             secondCurrency
         ] = this.pair.split("/");
 
-        if (this.pair === "EOS/BTC" || this.pair === "EOS/ETH") {
-            return `https://api.bitfinex.com/v1/pubticker/${firstCurrency}${secondCurrency}`;
-        }
-
         this.marketRandom = Math.floor(Math.random() * 3);
 
         if (this.marketRandom === 0) {
