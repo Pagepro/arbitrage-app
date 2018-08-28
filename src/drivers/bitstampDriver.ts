@@ -9,8 +9,10 @@ export default class BitstampDriver extends Driver {
     prepareUrl(): string {
         const fixedPair = this.pair.replace("/", "").toLowerCase();
 
+        const exchangeURL = `https://www.bitstamp.net/api/v2/ticker/${fixedPair}`;
+
         if (!proxyConfig.usage[BITSTAMP]) {
-            return `https://www.bitstamp.net/api/v2/ticker/${fixedPair}`;
+            return exchangeURL;
         } else {
             const {
                 URLs: proxyURLs
@@ -21,7 +23,7 @@ export default class BitstampDriver extends Driver {
             if (proxyRandom < proxyURLs.length) {
                 return `${proxyURLs[proxyRandom]}market=bitstamp&coin=${fixedPair}`;
             } else {
-                return `https://www.bitstamp.net/api/v2/ticker/${fixedPair}`;
+                return exchangeURL;
             }
         }
     }

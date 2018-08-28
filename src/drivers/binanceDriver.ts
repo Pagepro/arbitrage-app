@@ -7,8 +7,11 @@ import proxyConfig from "../config/proxy";
 export default class BinanceDriver extends Driver {
 
     prepareUrl(): string {
+        const fixedPair = this.pair.replace("/", "");
+        const exchangeURL = `https://api.binance.com/api/v3/ticker/bookTicker?symbol=${fixedPair}`;
+
         if (!proxyConfig.usage[BINANCE]) {
-            return `https://api.binance.com/api/v3/ticker/bookTicker?symbol=${this.pair.replace("/", "")}`;
+            return exchangeURL;
         } else {
             const {
                 URLs: proxyURLs
@@ -19,7 +22,7 @@ export default class BinanceDriver extends Driver {
             if (proxyRandom < proxyURLs.length) {
                 return `${proxyURLs[proxyRandom]}market=binance&coin=${this.pair.replace("/", "")}`;
             } else {
-                return `https://api.binance.com/api/v3/ticker/bookTicker?symbol=${this.pair.replace("/", "")}`;
+                return exchangeURL;
             }
         }
     }

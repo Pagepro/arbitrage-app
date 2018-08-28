@@ -9,8 +9,10 @@ export default class OkexDriver extends Driver {
     prepareUrl(): string {
         const fixedPair = this.pair.replace("/", "_").toLowerCase();
 
+        const exchangeURL = `https://www.okex.com/api/v1/ticker.do?symbol=${fixedPair}`;
+
         if (!proxyConfig.usage[OKEX]) {
-            return `https://www.okex.com/api/v1/ticker.do?symbol=${fixedPair}`;
+            return exchangeURL;
         } else {
             const {
                 URLs: proxyURLs
@@ -21,7 +23,7 @@ export default class OkexDriver extends Driver {
             if (proxyRandom < proxyURLs.length) {
                 return `${proxyURLs[proxyRandom]}market=okex&coin=${fixedPair}`;
             } else {
-                return `https://www.okex.com/api/v1/ticker.do?symbol=${fixedPair}`;
+                return exchangeURL;
             }
         }
 

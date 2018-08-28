@@ -14,8 +14,10 @@ export default class BittrexDriver extends Driver {
 
         const fixedPair = `${secondCurrency}-${firstCurrency}`;
 
+        const exchangeURL = `https://bittrex.com/api/v1.1/public/getticker?market=${fixedPair}`;
+
         if (!proxyConfig.usage[BITTREX]) {
-            return `https://bittrex.com/api/v1.1/public/getticker?market=${fixedPair}`;
+            return exchangeURL;
         } else {
             const {
                 URLs: proxyURLs
@@ -26,7 +28,7 @@ export default class BittrexDriver extends Driver {
             if (proxyRandom < proxyURLs.length) {
                 return `${proxyURLs[proxyRandom]}market=bittrex&coin=${fixedPair}`;
             } else {
-                return `https://bittrex.com/api/v1.1/public/getticker?market=${fixedPair}`;
+                return exchangeURL;
             }
         }
 

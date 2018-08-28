@@ -12,8 +12,10 @@ export default class BitfinexDriver extends Driver {
             secondCurrency
         ] = this.pair.split("/");
 
+        const exchangeURL = `https://api.bitfinex.com/v1/pubticker/${firstCurrency}${secondCurrency}`;
+
         if (!proxyConfig.usage[BITFINEX]) {
-            return `https://api.bitfinex.com/v1/pubticker/${firstCurrency}${secondCurrency}`;
+            return exchangeURL;
         } else {
             const {
                 URLs: proxyURLs
@@ -24,7 +26,7 @@ export default class BitfinexDriver extends Driver {
             if (proxyRandom < proxyURLs.length) {
                 return `${proxyURLs[proxyRandom]}market=bitfinex&coin=${firstCurrency}${secondCurrency}`;
             } else {
-                return `https://api.bitfinex.com/v1/pubticker/${firstCurrency}${secondCurrency}`;
+                return exchangeURL;
             }
         }
     }

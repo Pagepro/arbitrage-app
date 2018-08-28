@@ -9,8 +9,10 @@ export default class GdaxDriver extends Driver {
     prepareUrl(): string {
         const fixedPair = this.pair.replace("/", "-");
 
+        const exchangeURL = `https://api.pro.coinbase.com/products/${fixedPair}/ticker`;
+
         if (!proxyConfig.usage[GDAX]) {
-            return `https://api.pro.coinbase.com/products/${fixedPair}/ticker`;
+            return exchangeURL;
         } else {
             const {
                 URLs: proxyURLs
@@ -21,7 +23,7 @@ export default class GdaxDriver extends Driver {
             if (proxyRandom < proxyURLs.length) {
                 return `${proxyURLs[proxyRandom]}market=gdax&coin=${fixedPair}`;
             } else {
-                return `https://api.pro.coinbase.com/products/${fixedPair}/ticker`;
+                return exchangeURL;
             }
         }
     }
