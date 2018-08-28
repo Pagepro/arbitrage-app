@@ -44,7 +44,7 @@ const driversConfig = {
         [GDAX]: GdaxDriver
     },
     timeout: 4000,
-    retryInteraval: 5000
+    retryInterval: 5000
 };
 
 export default driversConfig;

@@ -16,13 +16,13 @@ class TickerManager {
     private runDriver (driverClass: any, pairName: any) {
         const driver = new driverClass(pairName);
         const {
-            retryInteraval
+            retryInterval
         } = driversConfig;
         driver.sendRequest()
         .then(() => {
             setTimeout(() => {
                 this.runDriver(driverClass, pairName);
-            }, retryInteraval);
+            }, retryInterval);
         });
     }
 
