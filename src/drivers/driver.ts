@@ -87,7 +87,7 @@ export default abstract class Driver {
 
     public sendRequest() {
         return axios.get(this.prepareUrl(), {
-            timeout: driversConfig.timeInterval
+            timeout: driversConfig.timeout
         }).then(({ data }: { data: any }) => data)
         .then(this.transformData)
         .then(this.saveData)
