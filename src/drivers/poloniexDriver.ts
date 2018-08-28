@@ -7,12 +7,21 @@ import proxyConfig from "../config/proxy";
 export default class PoloniexDriver extends Driver {
 
     prepareUrl(): string {
+        const exchangeURL = `https://poloniex.com/public?command=returnTicker`;
         if (!proxyConfig.usage[POLONIEX]) {
-            return `https://poloniex.com/public?command=returnTicker`;
+            return exchangeURL;
         } else {
-            // To do
-            // Poloniex is different than other exchanges - we don't know we'll deal with it
-            return `https://poloniex.com/public?command=returnTicker`;
+            const {
+                URLs: proxyURLs
+            } = proxyConfig;
+
+            const proxyRandom = Math.floor(Math.random() * (proxyURLs.length + 1));
+
+            if (proxyRandom < proxyURLs.length) {
+                return `${proxyURLs[proxyRandom]}market=poloniex`;
+            } else {
+                return exchangeURL;
+            }
         }
     }
 

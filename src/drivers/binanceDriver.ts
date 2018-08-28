@@ -20,7 +20,7 @@ export default class BinanceDriver extends Driver {
             const proxyRandom = Math.floor(Math.random() * (proxyURLs.length + 1));
 
             if (proxyRandom < proxyURLs.length) {
-                return `${proxyURLs[proxyRandom]}market=binance&coin=${this.pair.replace("/", "")}`;
+                return `${proxyURLs[proxyRandom]}market=binance&coin=${fixedPair}`;
             } else {
                 return exchangeURL;
             }
