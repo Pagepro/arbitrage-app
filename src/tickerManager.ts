@@ -15,9 +15,14 @@ class TickerManager {
 
     private runDriver (driverClass: any, pairName: any) {
         const driver = new driverClass(pairName);
+        const {
+            timeInterval
+        } = driversConfig;
         driver.sendRequest()
         .then(() => {
-            this.runDriver(driverClass, pairName);
+            setTimeout(() => {
+                this.runDriver(driverClass, pairName);
+            }, timeInterval);
         });
     }
 
