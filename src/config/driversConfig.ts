@@ -43,7 +43,8 @@ const driversConfig = {
         [OKEX]: OkexDriver,
         [GDAX]: GdaxDriver
     },
-    timeInterval: 5000
+    timeout: 4000,
+    retryInterval: 5000
 };
 
 export default driversConfig;

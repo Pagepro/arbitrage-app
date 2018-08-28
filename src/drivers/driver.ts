@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 import driversConfig from "../config/driversConfig";
 import WebsocketManager from "../WebsocketManager";
 import logger from "../util/logger";
@@ -7,6 +5,7 @@ import Exchange from "../models/schemas/exchangeDataSchema";
 import Spread from "../models/schemas/spreadDataSchema";
 import calculateSpread from "../util/spreadCalculator";
 import { highSpreadValue } from "../config/serverConfig";
+import axios from "axios";
 
 export default abstract class Driver {
 
@@ -87,7 +86,7 @@ export default abstract class Driver {
 
     public sendRequest() {
         return axios.get(this.prepareUrl(), {
-            timeout: driversConfig.timeInterval
+            timeout: driversConfig.timeout
         }).then(({ data }: { data: any }) => data)
         .then(this.transformData)
         .then(this.saveData)
