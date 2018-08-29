@@ -2,11 +2,12 @@ import Driver from "./driver";
 import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { POLONIEX } from "../config/exchanges";
+import createURL from "../util/urlCreator";
 
 export default class PoloniexDriver extends Driver {
 
     prepareUrl(): string {
-        return `https://poloniex.com/public?command=returnTicker`;
+        return createURL(POLONIEX);
     }
 
     transformData(data: any): any {

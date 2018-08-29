@@ -2,11 +2,13 @@ import Driver from "./driver";
 import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { BITSTAMP } from "../config/exchanges";
+import createURL from "../util/urlCreator";
 
 export default class BitstampDriver extends Driver {
 
     prepareUrl(): string {
-        return `https://www.bitstamp.net/api/v2/ticker/${this.pair.replace("/", "").toLowerCase()}`;
+        const fixedPair = this.pair.replace("/", "").toLowerCase();
+        return `${createURL(BITSTAMP)}${fixedPair}`;
     }
 
     transformData(data: any): any {
