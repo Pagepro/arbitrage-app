@@ -2,11 +2,13 @@ import Driver from "./driver";
 import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { OKEX } from "../config/exchanges";
+import createURL from "../util/urlCreator";
 
 export default class OkexDriver extends Driver {
 
     prepareUrl(): string {
-        return `https://www.okex.com/api/v1/ticker.do?symbol=${this.pair.replace("/", "_").toLowerCase()}`;
+        const fixedPair = this.pair.replace("/", "_").toLowerCase();
+        return `${createURL(OKEX)}${fixedPair}`;
     }
 
     transformData(data: any): any {

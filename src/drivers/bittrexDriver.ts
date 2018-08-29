@@ -2,6 +2,7 @@ import Driver from "./driver";
 import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { BITTREX } from "../config/exchanges";
+import createURL from "../util/urlCreator";
 
 export default class BittrexDriver extends Driver {
 
@@ -10,8 +11,9 @@ export default class BittrexDriver extends Driver {
             firstCurrency,
             secondCurrency
         ] = this.pair.split("/");
+
         const fixedPair = `${secondCurrency}-${firstCurrency}`;
-        return `https://bittrex.com/api/v1.1/public/getticker?market=${fixedPair}`;
+        return `${createURL(BITTREX)}${fixedPair}`;
     }
 
     transformData(data: any): any {
