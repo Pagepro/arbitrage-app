@@ -3,29 +3,13 @@ import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { GDAX } from "../config/exchanges";
 import proxyConfig from "../config/proxy";
+import createURL from "../util/urlCreator";
 
 export default class GdaxDriver extends Driver {
 
     prepareUrl(): string {
         const fixedPair = this.pair.replace("/", "-");
-
-        const exchangeURL = `https://api.pro.coinbase.com/products/${fixedPair}/ticker`;
-
-        if (!proxyConfig.usage[GDAX]) {
-            return exchangeURL;
-        } else {
-            const {
-                URLs: proxyURLs
-            } = proxyConfig;
-
-            const proxyRandom = Math.floor(Math.random() * (proxyURLs.length + 1));
-
-            if (proxyRandom < proxyURLs.length) {
-                return `${proxyURLs[proxyRandom]}market=gdax&coin=${fixedPair}`;
-            } else {
-                return exchangeURL;
-            }
-        }
+        return `${createURL(GDAX)}${fixedPair}/ticker`;
     }
 
     transformData(data: any): any {

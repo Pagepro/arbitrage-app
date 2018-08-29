@@ -2,7 +2,7 @@ import Driver from "./driver";
 import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { BITTREX } from "../config/exchanges";
-import proxyConfig from "../config/proxy";
+import createURL from "../util/urlCreator";
 
 export default class BittrexDriver extends Driver {
 
@@ -13,25 +13,7 @@ export default class BittrexDriver extends Driver {
         ] = this.pair.split("/");
 
         const fixedPair = `${secondCurrency}-${firstCurrency}`;
-
-        const exchangeURL = `https://bittrex.com/api/v1.1/public/getticker?market=${fixedPair}`;
-
-        if (!proxyConfig.usage[BITTREX]) {
-            return exchangeURL;
-        } else {
-            const {
-                URLs: proxyURLs
-            } = proxyConfig;
-
-            const proxyRandom = Math.floor(Math.random() * (proxyURLs.length + 1));
-
-            if (proxyRandom < proxyURLs.length) {
-                return `${proxyURLs[proxyRandom]}market=bittrex&coin=${fixedPair}`;
-            } else {
-                return exchangeURL;
-            }
-        }
-
+        return `${createURL(BITTREX)}${fixedPair}`;
     }
 
     transformData(data: any): any {

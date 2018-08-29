@@ -2,7 +2,7 @@ import Driver from "./driver";
 import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { BITFINEX } from "../config/exchanges";
-import proxyConfig from "../config/proxy";
+import createURL from "../util/urlCreator";
 
 export default class BitfinexDriver extends Driver {
 
@@ -12,23 +12,8 @@ export default class BitfinexDriver extends Driver {
             secondCurrency
         ] = this.pair.split("/");
 
-        const exchangeURL = `https://api.bitfinex.com/v1/pubticker/${firstCurrency}${secondCurrency}`;
-
-        if (!proxyConfig.usage[BITFINEX]) {
-            return exchangeURL;
-        } else {
-            const {
-                URLs: proxyURLs
-            } = proxyConfig;
-
-            const proxyRandom = Math.floor(Math.random() * (proxyURLs.length + 1));
-
-            if (proxyRandom < proxyURLs.length) {
-                return `${proxyURLs[proxyRandom]}market=bitfinex&coin=${firstCurrency}${secondCurrency}`;
-            } else {
-                return exchangeURL;
-            }
-        }
+        const fixedPair = `${firstCurrency}${secondCurrency}`;
+        return `${createURL(BITFINEX)}${fixedPair}`;
     }
 
     transformData(data: any): any {

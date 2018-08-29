@@ -2,27 +2,12 @@ import Driver from "./driver";
 import Exchange from "../models/schemas/exchangeDataSchema";
 
 import { POLONIEX } from "../config/exchanges";
-import proxyConfig from "../config/proxy";
+import createURL from "../util/urlCreator";
 
 export default class PoloniexDriver extends Driver {
 
     prepareUrl(): string {
-        const exchangeURL = `https://poloniex.com/public?command=returnTicker`;
-        if (!proxyConfig.usage[POLONIEX]) {
-            return exchangeURL;
-        } else {
-            const {
-                URLs: proxyURLs
-            } = proxyConfig;
-
-            const proxyRandom = Math.floor(Math.random() * (proxyURLs.length + 1));
-
-            if (proxyRandom < proxyURLs.length) {
-                return `${proxyURLs[proxyRandom]}market=poloniex`;
-            } else {
-                return exchangeURL;
-            }
-        }
+        return createURL(POLONIEX);
     }
 
     transformData(data: any): any {
