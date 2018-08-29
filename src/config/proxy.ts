@@ -1,6 +1,6 @@
 import { BINANCE, BITFINEX, BITSTAMP, BITTREX, OKEX, POLONIEX, GDAX } from "./exchanges";
 
-const URLsArray = process.env.PROXY_URL.split(",");
+const URLsArray = (process.env.PROXY_URL || "").split(",");
 
 interface IProxyConfigUsage {
     [key: string]: boolean;
