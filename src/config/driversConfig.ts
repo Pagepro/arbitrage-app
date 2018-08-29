@@ -6,8 +6,31 @@ import BittrexDriver from "../drivers/bittrexDriver";
 import PoloniexDriver from "../drivers/poloniexDriver";
 import OkexDriver from "../drivers/okexDriver";
 import GdaxDriver from "../drivers/gdaxDriver";
+import Driver from "../drivers/driver";
 
-const driversConfig = {
+interface IURLsMapping {
+    [key: string]: string;
+}
+
+interface IExchangeMapping {
+    pair: string;
+    exchanges: string[];
+}
+
+interface IDriversMapping {
+    [key: string]: typeof Driver;
+}
+
+interface IDriversConfig {
+    URLsMapping: IURLsMapping;
+    exchangesMapping: IExchangeMapping[];
+    driversMapping: IDriversMapping;
+    timeout: number;
+    retryInterval: number;
+
+}
+
+const driversConfig: IDriversConfig = {
     exchangesMapping: [
         {
             pair: "ETH/BTC",

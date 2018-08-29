@@ -8,9 +8,9 @@ const createURL = (exchangeName: string) => {
         URLsMapping
     } = driversConfig;
 
-    const exchangeURL: string = (<any>URLsMapping)[exchangeName];
+    const exchangeURL: string = URLsMapping[exchangeName];
 
-    if (!(<any>proxyConfig).usage[exchangeName]) {
+    if (!proxyConfig.usage[exchangeName]) {
         return exchangeURL;
     } else {
         exchangeName = exchangeName.toLowerCase();
