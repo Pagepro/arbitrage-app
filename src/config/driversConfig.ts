@@ -41,6 +41,10 @@ const driversConfig: IDriversConfig = {
             exchanges: [BINANCE, BITFINEX, BITTREX, POLONIEX, OKEX]
         },
         {
+            pair: "XLM/ETH",
+            exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
+        },
+        {
             pair: "NEO/BTC",
             exchanges: [BINANCE, BITFINEX, BITTREX, OKEX]
         },
