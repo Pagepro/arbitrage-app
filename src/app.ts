@@ -81,17 +81,15 @@ app.use("/public",
   express.static(serverConfig.staticFilesDir, { maxAge: 31557600000 })
 );
 
-app.use(cors());
-
 /**
  * Primary app routes.
  */
 
 app.get("/status", statusController);
 
-app.get("/api/config", configController);
+app.get("/api/config", cors(), configController);
 
-app.get("/api/history/:pair", historyController);
+app.get("/api/history/:pair", cors(), historyController);
 
 app.get("*", indexController.index);
 
