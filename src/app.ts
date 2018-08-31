@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import compression from "compression";  // compresses requests
 import session from "express-session";
 import bodyParser from "body-parser";
@@ -79,6 +80,8 @@ app.use((req, res, next) => {
 app.use("/public",
   express.static(serverConfig.staticFilesDir, { maxAge: 31557600000 })
 );
+
+app.use(cors());
 
 /**
  * Primary app routes.
