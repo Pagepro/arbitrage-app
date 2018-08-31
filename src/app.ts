@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import compression from "compression";  // compresses requests
 import session from "express-session";
 import bodyParser from "body-parser";
@@ -86,9 +87,9 @@ app.use("/public",
 
 app.get("/status", statusController);
 
-app.get("/api/config", configController);
+app.get("/api/config", cors(), configController);
 
-app.get("/api/history/:pair", historyController);
+app.get("/api/history/:pair", cors(), historyController);
 
 app.get("*", indexController.index);
 
