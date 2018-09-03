@@ -17,7 +17,7 @@ if (process.env.ENV !== "production") {
  */
 const startCallback = () => {
   console.log(
-    "  App is running at http://localhost:%d in %s mode",
+    "  App is running at http://localhost:%d in %s mode " + greenlockApp.address(),
     app.get("port"),
     app.get("env")
   );
