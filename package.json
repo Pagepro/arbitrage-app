@@ -46,6 +46,7 @@
     "express-validator": "^4.3.0",
     "fbgraph": "^1.4.1",
     "glob": "^7.1.2",
+    "greenlock-express": "^2.4.6",
     "lodash": "^4.17.10",
     "lusca": "^1.5.2",
     "moment": "^2.22.2",
