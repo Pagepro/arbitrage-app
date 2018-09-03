@@ -19,7 +19,7 @@ export default {
     configDir: "../../certs/",
 
     // You MUST change this to a valid email address
-    email: "netlify@pagepro.co",
+    email: "api.arbmonitor@pagepro.co",
 
     // You MUST change these to valid domains
     // NOTE: all domains will validated and listed on the certificate
