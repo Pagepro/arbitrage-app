@@ -14,7 +14,7 @@ declare module "greenlock-express" {
       telemetry: boolean;
     }
 
-    function create (config: IGreenlockExpressConfig): Application;
+    function create (config: IGreenlockExpressConfig): any;
   }
 
   export default GreenlockExpress;

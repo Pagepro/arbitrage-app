@@ -15,7 +15,7 @@ if (process.env.ENV !== "production") {
 /**
  * Start Express server.
  */
-const server = (greenlockApp || app).listen(app.get("port"), () => {
+const startCallback = () => {
   console.log(
     "  App is running at http://localhost:%d in %s mode",
     app.get("port"),
@@ -23,6 +23,15 @@ const server = (greenlockApp || app).listen(app.get("port"), () => {
   );
   console.log("  Press CTRL-C to stop\n");
   TickerManager.getInstance().startRequests();
-});
+};
+
+let server = undefined;
+
+if (greenlockApp) {
+  server = greenlockApp.listen(80, 443);
+  startCallback();
+} else {
+  server = app.listen(app.get("port"), startCallback);
+}
 
 export default server;

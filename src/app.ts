@@ -40,8 +40,7 @@ mongoose.connect(mongoUrl, {useMongoClient: true}).catch(err => {
 });
 
 // Express configuration
-console.log(isProd, isProd ? 443 : (process.env.PORT || 3000));
-app.set("port", isProd ? 443 : (process.env.PORT || 3000));
+app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 app.use(compression());
