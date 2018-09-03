@@ -25,13 +25,8 @@ const startCallback = () => {
   TickerManager.getInstance().startRequests();
 };
 
-let server = undefined;
-
-if (greenlockApp) {
-  server = greenlockApp.listen(80, 443);
-  startCallback();
-} else {
-  server = app.listen(app.get("port"), startCallback);
-}
+const server = greenlockApp
+  ? greenlockApp.listen(80, 443, startCallback)
+  : app.listen(app.get("port"), startCallback);
 
 export default server;

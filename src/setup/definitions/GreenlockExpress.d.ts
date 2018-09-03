@@ -12,6 +12,7 @@ declare module "greenlock-express" {
       app: Application;
       communityMember: boolean;
       telemetry: boolean;
+      debug: boolean;
     }
 
     function create (config: IGreenlockExpressConfig): any;
