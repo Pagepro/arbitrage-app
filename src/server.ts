@@ -13,7 +13,6 @@ if (process.env.ENV !== "production") {
 /**
  * Start Express server.
  */
-console.log(app.get("port"));
 const server = app.listen(app.get("port"), () => {
   console.log(
     "  App is running at http://localhost:%d in %s mode",
