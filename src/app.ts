@@ -17,7 +17,7 @@ import serverConfig from "./config/serverConfig";
 import greenlockExpress from "greenlock-express";
 
 const MongoStore = mongo(session);
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.ENV === "production";
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: ".env.example" });
@@ -94,7 +94,5 @@ app.get("/api/config", cors(), configController);
 app.get("/api/history/:pair", cors(), historyController);
 
 app.get("*", indexController.index);
-
-console.log(isProd, `env: ${process.env.ENV}`);
 
 export default isProd ? greenlockExpress.create(serverConfig.getGreenlockConfig(app)) : app;

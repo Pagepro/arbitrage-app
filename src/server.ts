@@ -6,7 +6,7 @@ import TickerManager from "./tickerManager";
  * Error Handler. Provides full stack - remove for production
  */
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.ENV !== "production") {
   app.use(errorHandler());
 }
 
