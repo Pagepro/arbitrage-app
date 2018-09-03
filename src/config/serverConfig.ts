@@ -19,7 +19,7 @@ export default {
     configDir: "../../certs",
 
     // You MUST change this to a valid email address
-    email: "tomasz.chmiel+1@pagepro.co",
+    email: "tomasz.chmiel+2@pagepro.co",
 
     // You MUST change these to valid domains
     // NOTE: all domains will validated and listed on the certificate
