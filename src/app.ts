@@ -95,4 +95,6 @@ app.get("/api/history/:pair", cors(), historyController);
 
 app.get("*", indexController.index);
 
+console.log(isProd);
+
 export default isProd ? greenlockExpress.create(serverConfig.getGreenlockConfig(app)) : app;
