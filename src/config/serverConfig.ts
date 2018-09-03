@@ -23,7 +23,7 @@ export default {
 
     // You MUST change these to valid domains
     // NOTE: all domains will validated and listed on the certificate
-    approveDomains: [ "api.arbmonitor.com", "www.api.arbmonitor.com" ],
+    approveDomains: [ "test-api-arbmonitor.com", "www.test-api-arbmonitor.com" ],
 
     // You MUST NOT build clients that accept the ToS without asking the user
     agreeTos: true,
