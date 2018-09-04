@@ -5,3 +5,4 @@ export const BITTREX = "Bittrex";
 export const POLONIEX = "Poloniex";
 export const OKEX = "OKEx";
 export const GDAX = "GDAX";
+export const COINBENE = "CoinBene";

@@ -1,4 +1,4 @@
-import { BINANCE, BITFINEX, BITSTAMP, BITTREX, OKEX, POLONIEX, GDAX } from "./exchanges";
+import { BINANCE, BITFINEX, BITSTAMP, BITTREX, OKEX, POLONIEX, GDAX, COINBENE } from "./exchanges";
 
 const URLsArray = (process.env.PROXY_URL || "").split(",");
 
@@ -19,7 +19,8 @@ const proxyConfig: IProxyConfig = {
         [BITTREX]: true,
         [OKEX]: false,
         [POLONIEX]: false,
-        [GDAX]: false
+        [GDAX]: false,
+        [COINBENE]: false
     },
     URLs: URLsArray
 };
