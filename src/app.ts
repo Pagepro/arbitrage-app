@@ -17,7 +17,7 @@ import serverConfig from "./config/serverConfig";
 import greenlockExpress from "greenlock-express";
 
 const MongoStore = mongo(session);
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.ENV === "production";
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: ".env.example" });
@@ -40,7 +40,7 @@ mongoose.connect(mongoUrl, {useMongoClient: true}).catch(err => {
 });
 
 // Express configuration
-app.set("port", isProd ? 443 : process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 app.use(compression());
@@ -95,6 +95,6 @@ app.get("/api/history/:pair", cors(), historyController);
 
 app.get("*", indexController.index);
 
-console.log(isProd);
+export const greenlockApp = isProd ? greenlockExpress.create(serverConfig.getGreenlockConfig(app)) : undefined;
 
-export default isProd ? greenlockExpress.create(serverConfig.getGreenlockConfig(app)) : app;
+export default app;

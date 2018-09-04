@@ -16,14 +16,14 @@ export default {
     server: "https://acme-v02.api.letsencrypt.org/directory",
 
     // Where the certs will be saved, MUST have write access
-    configDir: "../../certs/",
+    configDir: "../../certs",
 
     // You MUST change this to a valid email address
-    email: "netlify@pagepro.co",
+    email: "arbmonitor@pagepro.co",
 
     // You MUST change these to valid domains
     // NOTE: all domains will validated and listed on the certificate
-    approveDomains: [ "api.arbmonitor.com", "www.api.arbmonitor.com" ],
+    approveDomains: [ "arbmonitor.com" ],
 
     // You MUST NOT build clients that accept the ToS without asking the user
     agreeTos: true,
@@ -34,7 +34,9 @@ export default {
     communityMember: false,
 
     // Contribute telemetry data to the project
-    telemetry: true
+    telemetry: true,
+
+    debug: true
   })
 };
 
