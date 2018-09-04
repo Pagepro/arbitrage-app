@@ -13,17 +13,17 @@ export default {
 
     // Note: If at first you don't succeed, switch to staging to debug
     // https://acme-staging-v02.api.letsencrypt.org/directory
-    server: "https://acme-staging-v02.api.letsencrypt.org/directory",
+    server: "https://acme-v02.api.letsencrypt.org/directory",
 
     // Where the certs will be saved, MUST have write access
     configDir: "../../certs",
 
     // You MUST change this to a valid email address
-    email: "tomasz.chmiel+2@pagepro.co",
+    email: "netlify@pagepro.co",
 
     // You MUST change these to valid domains
     // NOTE: all domains will validated and listed on the certificate
-    approveDomains: [ "test-api-arbmonitor.com", "www.test-api-arbmonitor.com" ],
+    approveDomains: [ "api.arbmonitor.com" ],
 
     // You MUST NOT build clients that accept the ToS without asking the user
     agreeTos: true,
