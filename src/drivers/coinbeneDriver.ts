@@ -13,9 +13,17 @@ export default class CoinbeneDriver extends Driver {
 
     transformData(data: any): any {
         const {
-            ticker
+            ticker: [
+                tickerData
+            ]
         } = data;
-        return new Exchange({time: Date.now(), pairName: this.pair, ask: ticker[0].ask, bid: ticker[0].bid, exchangeName: COINBENE});
+        return new Exchange({
+            time: Date.now(),
+            pairName: this.pair,
+            ask: tickerData.ask,
+            bid: tickerData.bid,
+            exchangeName: COINBENE
+        });
     }
 
 }
