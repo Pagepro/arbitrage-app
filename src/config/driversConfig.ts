@@ -1,4 +1,4 @@
-import { BINANCE, BITFINEX, BITSTAMP, BITTREX, OKEX, POLONIEX, GDAX } from "./exchanges";
+import { BINANCE, BITFINEX, BITSTAMP, BITTREX, OKEX, POLONIEX, GDAX, COINBENE } from "./exchanges";
 import BinanceDriver from "../drivers/binanceDriver";
 import BitfinexDriver from "../drivers/bitfinexDriver";
 import BitstampDriver from "../drivers/bitstampDriver";
@@ -6,6 +6,7 @@ import BittrexDriver from "../drivers/bittrexDriver";
 import PoloniexDriver from "../drivers/poloniexDriver";
 import OkexDriver from "../drivers/okexDriver";
 import GdaxDriver from "../drivers/gdaxDriver";
+import CoinbeneDriver from "../drivers/coinbeneDriver";
 import Driver from "../drivers/driver";
 
 interface IURLsMapping {
@@ -34,7 +35,7 @@ const driversConfig: IDriversConfig = {
     exchangesMapping: [
         {
             pair: "ETH/BTC",
-            exchanges: [BINANCE, BITFINEX, BITSTAMP, BITTREX, POLONIEX, OKEX, GDAX]
+            exchanges: [BINANCE, BITFINEX, BITSTAMP, BITTREX, POLONIEX, OKEX, GDAX, COINBENE]
         },
         {
             pair: "XLM/BTC",
@@ -68,7 +69,8 @@ const driversConfig: IDriversConfig = {
         [BITTREX]: BittrexDriver,
         [POLONIEX]: PoloniexDriver,
         [OKEX]: OkexDriver,
-        [GDAX]: GdaxDriver
+        [GDAX]: GdaxDriver,
+        [COINBENE]: CoinbeneDriver
     },
     URLsMapping: {
         [BINANCE]: "https://api.binance.com/api/v3/ticker/bookTicker?symbol=",
@@ -77,7 +79,8 @@ const driversConfig: IDriversConfig = {
         [BITTREX]: "https://bittrex.com/api/v1.1/public/getticker?market=",
         [POLONIEX]: "https://poloniex.com/public?command=returnTicker",
         [OKEX]: "https://www.okex.com/api/v1/ticker.do?symbol=",
-        [GDAX]: "https://api.pro.coinbase.com/products/"
+        [GDAX]: "https://api.pro.coinbase.com/products/",
+        [COINBENE]: "http://api.coinbene.com/v1/market/ticker?symbol="
     },
     timeout: 4000,
     retryInterval: 5000
