@@ -32,9 +32,10 @@ import historyController from "./controllers/history";
 const app = express();
 
 // Connect to MongoDB
+mongoose.set("useNewUrlParser", true);
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
-mongoose.connect(mongoUrl, {useMongoClient: true}).catch(err => {
+mongoose.connect(mongoUrl).catch(err => {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
 });
