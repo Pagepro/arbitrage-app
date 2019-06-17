@@ -92,7 +92,7 @@ export default abstract class Driver {
         .then(this.saveData)
         .then(this.saveSpreads)
         .catch((error: any) => {
-            logger.log("error", error.message);
+            logger.log(`Error while fetching pair (${this.pair}) data from: ${this.prepareUrl()}`, error.message);
         });
     }
 
